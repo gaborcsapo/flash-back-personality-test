@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { questions } from '@/data/questions';
@@ -36,7 +35,7 @@ const personalityTypes = {
 };
 
 // Your API key (in a real app, this should be stored securely)
-const API_KEY = ""; // User needs to input API key
+const API_KEY = "AIzaSyC9kFprqfzRlx2vK_cp0ledxC_fbmMfgi8";
 
 const ResultsPage: React.FC<ResultsPageProps> = ({ answers, onRestart }) => {
   const isMobile = useIsMobile();
@@ -48,8 +47,6 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ answers, onRestart }) => {
   const [emoji, setEmoji] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [llmOutput, setLlmOutput] = useState('');
-  const [apiKeyInput, setApiKeyInput] = useState('');
-  const [apiKeySubmitted, setApiKeySubmitted] = useState(false);
 
   useEffect(() => {
     // Calculate scores based on answers
@@ -124,11 +121,9 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ answers, onRestart }) => {
     setDescription(personalityTypes[type].description);
     setEmoji(personalityTypes[type].emoji);
 
-    // Don't fetch LLM response yet if we don't have API key
-    if (!apiKeySubmitted) {
-      setIsLoading(false);
-    }
-  }, [answers, apiKeySubmitted]);
+    // Automatically fetch LLM response
+    fetchGeminiResponse(API_KEY, type);
+  }, [answers]);
 
   // Generate a detailed query for the LLM based on the personality type and scores
   const generateQueryText = (type, d1Score, d2Score) => {
@@ -204,35 +199,6 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ answers, onRestart }) => {
       setLlmOutput("Oops! Our Y2K-compatible AI crashed! Please check your API key and try again.");
       setIsLoading(false);
     }
-  };
-
-  const handleSubmitApiKey = () => {
-    if (!apiKeyInput.trim()) {
-      toast({
-        title: "API Key Required",
-        description: "Please enter a valid Google Gemini API key.",
-        variant: "destructive"
-      });
-      return;
-    }
-    
-    setApiKeySubmitted(true);
-    // Determine which personality type was assigned
-    let type;
-    if (dimension1Score >= 0) { // Gen Z
-      if (dimension2Score >= 0) {
-        type = 'genZOnline';
-      } else {
-        type = 'genZCaveman';
-      }
-    } else { // Boomer
-      if (dimension2Score >= 0) {
-        type = 'boomerOnline';
-      } else {
-        type = 'boomerCaveman';
-      }
-    }
-    fetchGeminiResponse(apiKeyInput, type);
   };
 
   // Calculate position on the chart
@@ -355,31 +321,8 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ answers, onRestart }) => {
               
               <div className="mt-4 md:mt-6 bg-y2k-blue/20 p-3 md:p-4 rounded-lg border-2 border-y2k-purple">
                 <h3 className="text-base md:text-lg font-pixel text-y2k-purple mb-2">AI ANALYSIS:</h3>
-                
-                {!apiKeySubmitted ? (
-                  <div className="p-2 md:p-3 bg-white/70 rounded-lg border-2 border-dashed border-y2k-hotpink">
-                    <p className="text-y2k-blue font-comic text-xs md:text-sm mb-3">
-                      To get a personalized AI analysis, please enter your Google Gemini API key:
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-2 justify-center items-center">
-                      <input 
-                        type="password"
-                        value={apiKeyInput}
-                        onChange={(e) => setApiKeyInput(e.target.value)}
-                        placeholder="Enter Gemini API Key"
-                        className="border-2 border-y2k-blue rounded px-3 py-1 text-sm md:text-base w-full sm:w-auto"
-                      />
-                      <Button 
-                        onClick={handleSubmitApiKey}
-                        className="y2k-button text-sm px-4 py-1 font-bold w-full sm:w-auto"
-                      >
-                        Analyze Me!
-                      </Button>
-                    </div>
-                    <p className="text-xs mt-2 text-y2k-purple">
-                      Your API key is used only for this request and is not stored.
-                    </p>
-                  </div>
+                {isLoading ? (
+                  <p className="text-y2k-blue font-comic text-xs md:text-sm">Analyzing your personality...</p>
                 ) : (
                   <p className="text-y2k-blue font-comic text-xs md:text-sm">{llmOutput}</p>
                 )}
