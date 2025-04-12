@@ -49,24 +49,53 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ answers, onRestart }) => {
     let d1Score = 0;
     let d2Score = 0;
 
+    // For debugging
+    console.log("Answers array:", answers);
+
     answers.forEach((answer, index) => {
       if (answer) {
+        // If the user checked "yes" for this question
         d1Score += questions[index].dimension1Value;
         d2Score += questions[index].dimension2Value;
+        
+        // Log each contribution for debugging
+        console.log(`Question ${index + 1}: d1 += ${questions[index].dimension1Value}, d2 += ${questions[index].dimension2Value}`);
       }
     });
 
-    // Normalize scores to a -10 to 10 scale
-    const totalPossibleD1 = questions.reduce((acc, q) => acc + Math.abs(q.dimension1Value), 0);
-    const totalPossibleD2 = questions.reduce((acc, q) => acc + Math.abs(q.dimension2Value), 0);
+    // Log raw scores
+    console.log("Raw d1Score (Boomer-GenZ):", d1Score);
+    console.log("Raw d2Score (Caveman-Online):", d2Score);
+
+    // Calculate total possible contribution in each direction (positive and negative)
+    const totalPossiblePositiveD1 = questions.reduce((acc, q) => q.dimension1Value > 0 ? acc + q.dimension1Value : acc, 0);
+    const totalPossibleNegativeD1 = questions.reduce((acc, q) => q.dimension1Value < 0 ? acc + Math.abs(q.dimension1Value) : acc, 0);
     
-    const normalizedD1 = (d1Score / totalPossibleD1) * 20 - 10;
-    const normalizedD2 = (d2Score / totalPossibleD2) * 20 - 10;
+    const totalPossiblePositiveD2 = questions.reduce((acc, q) => q.dimension2Value > 0 ? acc + q.dimension2Value : acc, 0);
+    const totalPossibleNegativeD2 = questions.reduce((acc, q) => q.dimension2Value < 0 ? acc + Math.abs(q.dimension2Value) : acc, 0);
+    
+    // Log possible ranges
+    console.log("Possible D1 range:", -totalPossibleNegativeD1, "to", totalPossiblePositiveD1);
+    console.log("Possible D2 range:", -totalPossibleNegativeD2, "to", totalPossiblePositiveD2);
+    
+    // Normalize scores to a -10 to 10 scale
+    // For d1: negative = boomer, positive = gen-z
+    // For d2: negative = caveman, positive = online
+    const normalizedD1 = d1Score > 0 
+      ? (d1Score / totalPossiblePositiveD1) * 10 
+      : (d1Score / totalPossibleNegativeD1) * 10;
+    
+    const normalizedD2 = d2Score > 0 
+      ? (d2Score / totalPossiblePositiveD2) * 10 
+      : (d2Score / totalPossibleNegativeD2) * 10;
+
+    console.log("Normalized D1 score:", normalizedD1);
+    console.log("Normalized D2 score:", normalizedD2);
 
     setDimension1Score(normalizedD1);
     setDimension2Score(normalizedD2);
 
-    // Determine personality type
+    // Determine personality type based on the quadrant
     let type;
     if (normalizedD1 >= 0) { // Gen Z
       if (normalizedD2 >= 0) {
@@ -81,6 +110,8 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ answers, onRestart }) => {
         type = 'boomerCaveman';
       }
     }
+
+    console.log("Selected personality type:", type);
 
     setPersonalityType(personalityTypes[type].name);
     setDescription(personalityTypes[type].description);
