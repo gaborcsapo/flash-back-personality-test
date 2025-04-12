@@ -1,20 +1,43 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>flash-back-personality-test</title>
-    <meta name="description" content="Lovable Generated Project" />
+    <title>Y2K Personality Test: Are You a Boomer or Gen-Z?</title>
+    <meta name="description" content="Take this quirky Y2K personality test to find out if you're a boomer or gen-z, and whether you're chronically online or a caveman!" />
     <meta name="author" content="Lovable" />
 
-    <meta property="og:title" content="flash-back-personality-test" />
-    <meta property="og:description" content="Lovable Generated Project" />
+    <meta property="og:title" content="Y2K Personality Test: Boomer vs Gen-Z" />
+    <meta property="og:description" content="Take this quirky Y2K personality test to find out if you're a boomer or gen-z, and whether you're chronically online or a caveman!" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@lovable_dev" />
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    
+    <!-- Blinking title script - early 2000s style -->
+    <script>
+      let originalTitle = document.title;
+      let flashTitle = "✨ TAKE THE QUIZ NOW! ✨";
+      let titleFlashing = false;
+      
+      function startTitleFlash() {
+        if (!titleFlashing) {
+          titleFlashing = true;
+          flashingTitleInterval = setInterval(function() {
+            document.title = document.title === originalTitle ? flashTitle : originalTitle;
+          }, 1500);
+        }
+      }
+      
+      // Start flashing after 5 seconds
+      setTimeout(startTitleFlash, 5000);
+    </script>
   </head>
 
   <body>
