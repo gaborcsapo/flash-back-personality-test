@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { questions } from '@/data/questions';
 import { motion } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useToast } from '@/hooks/use-toast';
 
 interface ResultsPageProps {
   answers: boolean[];
@@ -34,8 +35,12 @@ const personalityTypes = {
   }
 };
 
+// Your API key (in a real app, this should be stored securely)
+const API_KEY = ""; // User needs to input API key
+
 const ResultsPage: React.FC<ResultsPageProps> = ({ answers, onRestart }) => {
   const isMobile = useIsMobile();
+  const { toast } = useToast();
   const [dimension1Score, setDimension1Score] = useState(0); // Boomer vs Gen-Z
   const [dimension2Score, setDimension2Score] = useState(0); // Caveman vs Online
   const [personalityType, setPersonalityType] = useState('');
@@ -43,6 +48,8 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ answers, onRestart }) => {
   const [emoji, setEmoji] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [llmOutput, setLlmOutput] = useState('');
+  const [apiKeyInput, setApiKeyInput] = useState('');
+  const [apiKeySubmitted, setApiKeySubmitted] = useState(false);
 
   useEffect(() => {
     // Calculate scores based on answers
@@ -117,29 +124,130 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ answers, onRestart }) => {
     setDescription(personalityTypes[type].description);
     setEmoji(personalityTypes[type].emoji);
 
-    // Simulate "LLM processing" for nostalgic loading effect
-    setTimeout(() => {
+    // Don't fetch LLM response yet if we don't have API key
+    if (!apiKeySubmitted) {
       setIsLoading(false);
-      setLlmOutput(generateFakeAnalysis(type));
-    }, 3000);
-  }, [answers]);
+    }
+  }, [answers, apiKeySubmitted]);
 
-  // Generate a fake LLM analysis based on the personality type
-  const generateFakeAnalysis = (type: string) => {
-    const analyses = {
-      boomerOnline: "Based on your responses, I detect a fascinating pattern! You seem comfortable with technology but in a way that's distinctly from an earlier era. You've adapted to digital life but haven't fully embraced its culture. The data suggests you're excellent at finding and sharing content but perhaps not always discerning about its accuracy. Recommendation: Try exploring newer platforms with a healthy skepticism!",
-      boomerCaveman: "Analyzing your responses reveals someone who values tradition and hands-on approaches! The algorithm detects a strong preference for physical solutions over digital ones. Your data pattern suggests excellent practical skills but potential resistance to beneficial innovations. Recommendation: Consider how selective technology adoption might enhance your already strong self-sufficiency!",
-      genZOnline: "Your response pattern is fascinating! The algorithm detects extremely high digital native behaviors with significant immersion in online culture. Your digital footprint suggests you process information rapidly but perhaps with reduced depth. Recommendation: Consider occasional digital detoxes to allow for deeper thinking patterns to develop alongside your impressive content creation skills!",
-      genZCaveman: "What an interesting contradiction in your data! You show patterns typical of digital natives but with a deliberate rejection of hyperconsumption. The algorithm suggests you're selectively adapting technology rather than embracing it wholesale. Recommendation: Your balanced approach is rare - consider documenting your selective adoption practices to help others find similar balance!"
-    };
+  // Generate a detailed query for the LLM based on the personality type and scores
+  const generateQueryText = (type, d1Score, d2Score) => {
+    const queryStart = "You are a social media personality analyst. Based on this user's quiz results, give a funny and insightful analysis of their personality type in about 3-4 sentences. Make it sound like a Y2K era website with early internet vibes. Their results show: ";
     
-    return analyses[type];
+    let personaDesc = "";
+    
+    switch(type) {
+      case 'boomerOnline':
+        personaDesc = "They're a 'CHRONICALLY ONLINE BOOMER' - someone from an older generation who spends a lot of time online but isn't fully immersed in internet culture. They scored " + Math.abs(d1Score.toFixed(1)) + "/10 towards the Boomer side and " + d2Score.toFixed(1) + "/10 towards being Online.";
+        break;
+      case 'boomerCaveman':
+        personaDesc = "They're a 'CAVEMAN BOOMER' - someone from an older generation who actively avoids technology. They scored " + Math.abs(d1Score.toFixed(1)) + "/10 towards the Boomer side and " + Math.abs(d2Score.toFixed(1)) + "/10 towards being a Caveman (tech-averse).";
+        break;
+      case 'genZOnline':
+        personaDesc = "They're a 'CHRONICALLY ONLINE GEN-Z' - a younger person who is extremely immersed in internet culture. They scored " + d1Score.toFixed(1) + "/10 towards the Gen-Z side and " + d2Score.toFixed(1) + "/10 towards being Online.";
+        break;
+      case 'genZCaveman':
+        personaDesc = "They're a 'CAVEMAN GEN-Z' - a younger person who intentionally disconnects from technology. They scored " + d1Score.toFixed(1) + "/10 towards the Gen-Z side and " + Math.abs(d2Score.toFixed(1)) + "/10 towards being a Caveman (tech-averse).";
+        break;
+    }
+    
+    return queryStart + personaDesc;
+  };
+
+  // Call Gemini API to get LLM response
+  const fetchGeminiResponse = async (apiKey, type) => {
+    setIsLoading(true);
+    const query = generateQueryText(type, dimension1Score, dimension2Score);
+    
+    try {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text: query
+                }
+              ]
+            }
+          ]
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      console.log("Gemini API response:", data);
+      
+      let generatedText = "";
+      if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) {
+        generatedText = data.candidates[0].content.parts[0].text;
+      } else {
+        throw new Error("Unexpected response structure from Gemini API");
+      }
+      
+      setLlmOutput(generatedText);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error calling Gemini API:", error);
+      toast({
+        title: "API Error",
+        description: "Failed to get LLM analysis. Check your API key and try again.",
+        variant: "destructive"
+      });
+      setLlmOutput("Oops! Our Y2K-compatible AI crashed! Please check your API key and try again.");
+      setIsLoading(false);
+    }
+  };
+
+  const handleSubmitApiKey = () => {
+    if (!apiKeyInput.trim()) {
+      toast({
+        title: "API Key Required",
+        description: "Please enter a valid Google Gemini API key.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setApiKeySubmitted(true);
+    // Determine which personality type was assigned
+    let type;
+    if (dimension1Score >= 0) { // Gen Z
+      if (dimension2Score >= 0) {
+        type = 'genZOnline';
+      } else {
+        type = 'genZCaveman';
+      }
+    } else { // Boomer
+      if (dimension2Score >= 0) {
+        type = 'boomerOnline';
+      } else {
+        type = 'boomerCaveman';
+      }
+    }
+    fetchGeminiResponse(apiKeyInput, type);
   };
 
   // Calculate position on the chart
   const chartSize = isMobile ? 250 : 300; // Smaller chart on mobile
   const dotX = (dimension1Score + 10) * (chartSize / 20); // Convert from -10/10 to 0/300px
   const dotY = (10 - dimension2Score) * (chartSize / 20); // Note Y is inverted in CSS
+
+  // Determine which pixelated character to show based on personality type
+  const getCharacterClass = () => {
+    if (dimension1Score >= 0) { // Gen Z
+      return dimension2Score >= 0 ? "genz-online" : "genz-caveman";
+    } else { // Boomer
+      return dimension2Score >= 0 ? "boomer-online" : "boomer-caveman";
+    }
+  };
 
   return (
     <motion.div 
@@ -191,16 +299,40 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ answers, onRestart }) => {
                   
                   {/* Quadrant Labels - Smaller on mobile */}
                   <div className="absolute top-1/4 left-1/4 transform -translate-x-1/2 -translate-y-1/2 text-y2k-purple font-comic text-[7px] md:text-xs text-center">
-                    👴📱<br />{!isMobile && "Chronically"}<br />Online<br />Boomer
+                    <div className="pixelated-character boomer-online">
+                      <div className="character-head"></div>
+                      <div className="character-body"></div>
+                      <div className="character-phone"></div>
+                      <div className="character-glasses"></div>
+                    </div>
+                    {!isMobile && "Chronically"}<br />Online<br />Boomer
                   </div>
                   <div className="absolute top-1/4 right-1/4 transform translate-x-1/2 -translate-y-1/2 text-y2k-purple font-comic text-[7px] md:text-xs text-center">
-                    🧑‍💻💅<br />{!isMobile && "Chronically"}<br />Online<br />Gen-Z
+                    <div className="pixelated-character genz-online">
+                      <div className="character-head"></div>
+                      <div className="character-body"></div>
+                      <div className="character-phone"></div>
+                      <div className="character-headphones"></div>
+                    </div>
+                    {!isMobile && "Chronically"}<br />Online<br />Gen-Z
                   </div>
                   <div className="absolute bottom-1/4 left-1/4 transform -translate-x-1/2 translate-y-1/2 text-y2k-purple font-comic text-[7px] md:text-xs text-center">
-                    👵🔨<br />Caveman<br />Boomer
+                    <div className="pixelated-character boomer-caveman">
+                      <div className="character-head"></div>
+                      <div className="character-body"></div>
+                      <div className="character-tool"></div>
+                      <div className="character-newspaper"></div>
+                    </div>
+                    Caveman<br />Boomer
                   </div>
                   <div className="absolute bottom-1/4 right-1/4 transform translate-x-1/2 translate-y-1/2 text-y2k-purple font-comic text-[7px] md:text-xs text-center">
-                    👱‍♀️🌱<br />Caveman<br />Gen-Z
+                    <div className="pixelated-character genz-caveman">
+                      <div className="character-head"></div>
+                      <div className="character-body"></div>
+                      <div className="character-plant"></div>
+                      <div className="character-beanie"></div>
+                    </div>
+                    Caveman<br />Gen-Z
                   </div>
                   
                   {/* The dot showing the user's position */}
@@ -223,7 +355,34 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ answers, onRestart }) => {
               
               <div className="mt-4 md:mt-6 bg-y2k-blue/20 p-3 md:p-4 rounded-lg border-2 border-y2k-purple">
                 <h3 className="text-base md:text-lg font-pixel text-y2k-purple mb-2">AI ANALYSIS:</h3>
-                <p className="text-y2k-blue font-comic text-xs md:text-sm">{llmOutput}</p>
+                
+                {!apiKeySubmitted ? (
+                  <div className="p-2 md:p-3 bg-white/70 rounded-lg border-2 border-dashed border-y2k-hotpink">
+                    <p className="text-y2k-blue font-comic text-xs md:text-sm mb-3">
+                      To get a personalized AI analysis, please enter your Google Gemini API key:
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-2 justify-center items-center">
+                      <input 
+                        type="password"
+                        value={apiKeyInput}
+                        onChange={(e) => setApiKeyInput(e.target.value)}
+                        placeholder="Enter Gemini API Key"
+                        className="border-2 border-y2k-blue rounded px-3 py-1 text-sm md:text-base w-full sm:w-auto"
+                      />
+                      <Button 
+                        onClick={handleSubmitApiKey}
+                        className="y2k-button text-sm px-4 py-1 font-bold w-full sm:w-auto"
+                      >
+                        Analyze Me!
+                      </Button>
+                    </div>
+                    <p className="text-xs mt-2 text-y2k-purple">
+                      Your API key is used only for this request and is not stored.
+                    </p>
+                  </div>
+                ) : (
+                  <p className="text-y2k-blue font-comic text-xs md:text-sm">{llmOutput}</p>
+                )}
               </div>
             </div>
           )}
