@@ -10,27 +10,63 @@ interface ResultsPageProps {
   onRestart: () => void;
 }
 
-// Define our personality types
+// Define our personality types with added cartoon characters
 const personalityTypes = {
   boomerOnline: {
     name: "CHRONICALLY ONLINE BOOMER",
     description: "You argue about politics in Facebook comments and forward chain emails. You know how to post angry face emojis but can't figure out how to rotate a PDF.",
-    emoji: "👴📱"
+    emoji: "👴📱",
+    character: (
+      <div className="pixelated-character boomer-online">
+        <div className="character-head"></div>
+        <div className="character-body">
+          <div className="character-phone"></div>
+        </div>
+        <div className="character-glasses"></div>
+      </div>
+    )
   },
   boomerCaveman: {
     name: "CAVEMAN BOOMER",
     description: "You distrust all technology and prefer doing things 'the old fashioned way.' You have an actual phonebook and can fix anything with duct tape.",
-    emoji: "👵🔨"
+    emoji: "👵🔨",
+    character: (
+      <div className="pixelated-character boomer-caveman">
+        <div className="character-head"></div>
+        <div className="character-body">
+          <div className="character-tool"></div>
+        </div>
+        <div className="character-newspaper"></div>
+      </div>
+    )
   },
   genZOnline: {
     name: "CHRONICALLY ONLINE GEN-Z",
     description: "Your screen time is measured in days, not hours. You have strong opinions about fandoms and know all the latest TikTok trends.",
-    emoji: "🧑‍💻💅"
+    emoji: "🧑‍💻💅",
+    character: (
+      <div className="pixelated-character genz-online">
+        <div className="character-head"></div>
+        <div className="character-body">
+          <div className="character-phone"></div>
+        </div>
+        <div className="character-headphones"></div>
+      </div>
+    )
   },
   genZCaveman: {
     name: "CAVEMAN GEN-Z",
     description: "You own a record player 'for the sound quality' and grow your own vegetables. You're into 'digital detoxing' but still post about it.",
-    emoji: "👱‍♀️🌱"
+    emoji: "👱‍♀️🌱",
+    character: (
+      <div className="pixelated-character genz-caveman">
+        <div className="character-head"></div>
+        <div className="character-body">
+          <div className="character-plant"></div>
+        </div>
+        <div className="character-beanie"></div>
+      </div>
+    )
   }
 };
 
@@ -189,18 +225,22 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ answers, onRestart }) => {
                   <div className="absolute left-1 md:left-2 top-1/2 transform -translate-y-1/2 text-y2k-blue font-pixel text-[8px] md:text-xs">BOOMER</div>
                   <div className="absolute right-1 md:right-2 top-1/2 transform -translate-y-1/2 text-y2k-blue font-pixel text-[8px] md:text-xs">GEN-Z</div>
                   
-                  {/* Quadrant Labels - Smaller on mobile */}
+                  {/* Quadrant Labels with Pixelated Characters - Smaller on mobile */}
                   <div className="absolute top-1/4 left-1/4 transform -translate-x-1/2 -translate-y-1/2 text-y2k-purple font-comic text-[7px] md:text-xs text-center">
-                    👴📱<br />{!isMobile && "Chronically"}<br />Online<br />Boomer
+                    {personalityTypes.boomerOnline.character}
+                    <br />{!isMobile && "Chronically"}<br />Online<br />Boomer
                   </div>
                   <div className="absolute top-1/4 right-1/4 transform translate-x-1/2 -translate-y-1/2 text-y2k-purple font-comic text-[7px] md:text-xs text-center">
-                    🧑‍💻💅<br />{!isMobile && "Chronically"}<br />Online<br />Gen-Z
+                    {personalityTypes.genZOnline.character}
+                    <br />{!isMobile && "Chronically"}<br />Online<br />Gen-Z
                   </div>
                   <div className="absolute bottom-1/4 left-1/4 transform -translate-x-1/2 translate-y-1/2 text-y2k-purple font-comic text-[7px] md:text-xs text-center">
-                    👵🔨<br />Caveman<br />Boomer
+                    {personalityTypes.boomerCaveman.character}
+                    <br />Caveman<br />Boomer
                   </div>
                   <div className="absolute bottom-1/4 right-1/4 transform translate-x-1/2 translate-y-1/2 text-y2k-purple font-comic text-[7px] md:text-xs text-center">
-                    👱‍♀️🌱<br />Caveman<br />Gen-Z
+                    {personalityTypes.genZCaveman.character}
+                    <br />Caveman<br />Gen-Z
                   </div>
                   
                   {/* The dot showing the user's position */}
