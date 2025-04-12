@@ -127,7 +127,7 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ answers, onRestart }) => {
 
   // Generate a detailed query for the LLM based on the personality type and scores
   const generateQueryText = (type, d1Score, d2Score) => {
-    const queryStart = "You are a social media personality analyst. Based on this user's quiz results, give a funny and insightful analysis of their personality type in about 3-4 sentences. Make it sound like a Y2K era website with early internet vibes. Their results show: ";
+    const queryStart = "You are a social media personality analyst. Based on this user's quiz results, give a funny and insightful analysis of their personality type in about 3-4 sentences. Act like your one of the host on the TechRoast show and roast people for their personality type in a spicy and unhinged way. Make it sound like a Y2K era website with early internet vibes. Their results show: ";
     
     let personaDesc = "";
     
