@@ -93,11 +93,10 @@
 
   body {
     @apply bg-background text-foreground;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23FFCC00' fill-opacity='0.4'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23FFCC00' fill-opacity='0.4'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>👆</text></svg>") 16 0, auto;
   }
 
-  /* WebKit scrollbar customization */
   ::-webkit-scrollbar {
     width: 16px;
     height: 16px;
@@ -123,7 +122,6 @@
     background: #FF9966;
   }
 
-  /* Special Animated Elements */
   .blink-text {
     animation: blink 1s step-start infinite;
   }
@@ -169,9 +167,27 @@
     0% { transform: translateX(100%); }
     100% { transform: translateX(-100%); }
   }
+
+  @media (max-width: 640px) {
+    .under-construction::after {
+      font-size: 1.2em;
+      bottom: -3px;
+      right: -8px;
+    }
+    
+    .marquee-text {
+      font-size: 0.7em;
+      animation-duration: 10s;
+    }
+    
+    .y2k-button {
+      border-width: 2px;
+      text-shadow: 1px 1px 0 #CC00FF;
+      box-shadow: 0 0 5px rgba(255, 0, 204, 0.6);
+    }
+  }
 }
 
-/* Add text shadow utilities */
 @layer utilities {
   .text-shadow-hot-pink {
     text-shadow: 5px 5px 0 #FF00CC;
@@ -184,36 +200,48 @@
 
 @layer components {
   .y2k-container {
-    @apply relative overflow-hidden bg-white border-4 border-y2k-purple rounded-lg p-6 shadow-lg;
+    @apply relative overflow-hidden bg-white border-4 border-y2k-purple rounded-lg p-3 md:p-6 shadow-lg;
     background: linear-gradient(135deg, #CCFF00 0%, #FF00CC 100%);
   }
 
   .y2k-checkbox {
-    @apply appearance-none w-6 h-6 rounded border-2 border-y2k-blue bg-white checked:bg-y2k-hotpink 
+    @apply appearance-none w-5 h-5 md:w-6 md:h-6 rounded border-2 border-y2k-blue bg-white checked:bg-y2k-hotpink 
            checked:border-y2k-purple relative cursor-pointer transition-colors;
   }
 
   .y2k-checkbox:checked::after {
     content: "✓";
-    @apply absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold text-lg;
+    @apply absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold text-sm md:text-lg;
   }
 
   .y2k-checkbox-label {
-    @apply font-comic text-lg text-white cursor-pointer 
-           py-2 px-4 bg-y2k-blue/50 rounded-md border-2 border-y2k-hotpink 
-           shadow-[5px_5px_0_0_#CC00FF] hover:shadow-[2px_2px_0_0_#CC00FF] 
-           hover:translate-x-[3px] hover:translate-y-[3px] transition-all;
+    @apply font-comic text-sm md:text-lg text-white cursor-pointer 
+           py-1 px-2 md:py-2 md:px-4 bg-y2k-blue/50 rounded-md border-2 border-y2k-hotpink 
+           shadow-[3px_3px_0_0_#CC00FF] md:shadow-[5px_5px_0_0_#CC00FF] hover:shadow-[1px_1px_0_0_#CC00FF] md:hover:shadow-[2px_2px_0_0_#CC00FF] 
+           hover:translate-x-[2px] hover:translate-y-[2px] md:hover:translate-x-[3px] md:hover:translate-y-[3px] transition-all;
   }
   
   .y2k-title {
-    @apply font-pixel text-4xl md:text-6xl font-bold text-y2k-yellow 
-           text-center my-4 p-4 animate-bounce-horizontal
+    @apply font-pixel text-3xl md:text-4xl lg:text-6xl font-bold text-y2k-yellow 
+           text-center my-2 md:my-4 p-2 md:p-4 animate-bounce-horizontal
            text-shadow-hot-pink;
   }
   
   .y2k-tile {
-    @apply bg-white/80 border-4 border-dashed border-y2k-purple p-4 rounded-xl
-           shadow-[8px_8px_0_0_#00CCFF] hover:shadow-[4px_4px_0_0_#00CCFF]
+    @apply bg-white/80 border-2 md:border-4 border-dashed border-y2k-purple p-2 md:p-4 rounded-xl
+           shadow-[4px_4px_0_0_#00CCFF] md:shadow-[8px_8px_0_0_#00CCFF] hover:shadow-[2px_2px_0_0_#00CCFF] md:hover:shadow-[4px_4px_0_0_#00CCFF]
            hover:translate-x-1 hover:translate-y-1 transition-all;
+  }
+
+  .responsive-text {
+    @apply text-xs sm:text-sm md:text-base;
+  }
+
+  .responsive-padding {
+    @apply p-2 sm:p-3 md:p-4 lg:p-6;
+  }
+
+  .responsive-margin {
+    @apply m-1 sm:m-2 md:m-3 lg:m-4;
   }
 }

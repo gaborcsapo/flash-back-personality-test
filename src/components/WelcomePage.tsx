@@ -51,28 +51,28 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onStartTest }) => {
           VISITORS: 1337
         </div>
 
-        <h1 className="y2k-title">
+        <h1 className="y2k-title px-2 text-3xl md:text-6xl">
           <span className="text-shadow-y2k">PERSONALITY TEST</span>
         </h1>
         
         <motion.div 
-          className="text-center mb-8 font-comic"
+          className="text-center mb-8 font-comic px-2"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}
         >
           <div className="bg-white/70 rounded-xl p-4 mb-4 border-4 border-y2k-blue">
-            <p className="text-y2k-purple text-xl mb-4">
+            <p className="text-y2k-purple text-lg md:text-xl mb-4">
               <span className="under-construction">
                 Welcome to the ULTIMATE personality quiz!
               </span>
             </p>
-            <p className="text-y2k-hotpink mb-4">
+            <p className="text-y2k-hotpink mb-4 text-sm md:text-base">
               Are you a <span className="font-bold">BOOMER</span> or <span className="font-bold">GEN-Z</span>? 
               <br />
               Are you <span className="font-bold">CHRONICALLY ONLINE</span> or a <span className="font-bold">CAVEMAN</span>?
             </p>
-            <p className="text-y2k-blue">
+            <p className="text-y2k-blue text-sm md:text-base">
               Take this <span className="italic">SCIENTIFIC</span> test to find out!! 😜
             </p>
           </div>
@@ -84,7 +84,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onStartTest }) => {
             >
               <Button 
                 onClick={onStartTest} 
-                className="y2k-button text-2xl px-8 py-4 text-white uppercase font-bold"
+                className="y2k-button text-xl md:text-2xl px-6 py-3 md:px-8 md:py-4 text-white uppercase font-bold"
               >
                 {">>>"}Start Quiz{"<<<"}
               </Button>

@@ -31,7 +31,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       <AnimatePresence mode="wait">
         {appState === AppState.WELCOME && (
           <WelcomePage key="welcome" onStartTest={handleStartTest} />
@@ -47,13 +47,13 @@ const Index = () => {
       </AnimatePresence>
 
       {/* Y2K Footer Elements */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white/50 text-center py-1 font-pixel text-xs text-y2k-blue">
-        <div className="animate-bounce-horizontal">
-          {[...Array(20)].map((_, i) => (
+      <div className="fixed bottom-0 left-0 right-0 bg-white/50 text-center py-1 font-pixel text-[8px] md:text-xs text-y2k-blue overflow-hidden">
+        <div className="animate-bounce-horizontal whitespace-nowrap">
+          {[...Array(10)].map((_, i) => (
             <span key={i}>★</span>
           ))}
           {" "}BEST VIEWED AT 800x600{" "}
-          {[...Array(20)].map((_, i) => (
+          {[...Array(10)].map((_, i) => (
             <span key={i}>★</span>
           ))}
         </div>
