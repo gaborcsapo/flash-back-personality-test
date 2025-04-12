@@ -319,26 +319,26 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ answers, onRestart }) => {
                 </div>
               </div>
               
-              <div className="mt-4 md:mt-6 bg-gradient-to-br from-y2k-blue/30 to-y2k-purple/30 p-4 md:p-6 rounded-lg border-2 border-y2k-blue relative overflow-hidden">
+              <div className="mt-4 md:mt-6 bg-gradient-to-br from-y2k-lime/20 to-y2k-hotpink/20 p-4 md:p-6 rounded-lg border-2 border-y2k-lime relative overflow-hidden">
                 {/* Decorative AI elements */}
-                <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-y2k-blue opacity-50"></div>
-                <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-y2k-purple opacity-50"></div>
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 border-2 border-dashed border-y2k-hotpink rounded-full opacity-30"></div>
+                <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-y2k-lime opacity-50"></div>
+                <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-y2k-hotpink opacity-50"></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 border-2 border-dashed border-y2k-red rounded-full opacity-30"></div>
                 
-                <h3 className="text-lg md:text-xl font-pixel text-y2k-purple mb-3 relative z-10">
+                <h3 className="text-lg md:text-xl font-pixel text-y2k-red mb-3 relative z-10">
                   <span className="inline-block mr-2">🤖</span>AI ANALYSIS<span className="inline-block ml-2">🤖</span>
                 </h3>
                 {isLoading ? (
                   <div className="relative z-10">
-                    <p className="text-y2k-blue font-comic text-base md:text-lg mb-2">Analyzing your personality...</p>
+                    <p className="text-y2k-red font-comic text-base md:text-lg mb-2">Analyzing your personality...</p>
                     <div className="flex justify-center space-x-2">
-                      <div className="w-2 h-2 bg-y2k-blue rounded-full animate-pulse"></div>
-                      <div className="w-2 h-2 bg-y2k-purple rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                      <div className="w-2 h-2 bg-y2k-hotpink rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                      <div className="w-2 h-2 bg-y2k-lime rounded-full animate-pulse"></div>
+                      <div className="w-2 h-2 bg-y2k-hotpink rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                      <div className="w-2 h-2 bg-y2k-red rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
                     </div>
                   </div>
                 ) : (
-                  <p className="text-y2k-blue font-comic text-base md:text-lg relative z-10 leading-relaxed">
+                  <p className="text-y2k-red font-comic text-base md:text-lg relative z-10 leading-relaxed">
                     {llmOutput}
                   </p>
                 )}
